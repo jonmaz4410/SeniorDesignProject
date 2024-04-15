@@ -1,0 +1,56 @@
+BUILD INSTRUCTIONS
+
+1. Hardware Requirements
+	- PlutoSDR (x2)
+	- (USB-A cables with ferrite core (x2))
+	- Nooelec LANA Low Noise Amplifier
+	- HG903RD-SM 915MHz Dipole Antenna
+	- 915MHz Yagi Antenna
+	- Coax Cable
+	- Raspberry Pi 4b
+	- Laptop with Linux OS (Ubuntu 20.04 or 22.04)
+	- USB Powerpack to power rPi
+	- ZX60-83LN-S+ High Power Amplifier
+	- USB-C to USB-C cable
+	- Inverter to power laptop from car battery (optional)
+
+2. Software Requirements / packages / dependencies to install
+
+    Raspberry Pi (64bit ARM architecture)
+	- install OS on 32GB SD card using balenaEtcher
+		- we used an image from PiSDR here is the link: https://github.com/luigifcruz/pisdr-image
+	- dependencies installed for:
+		- docker
+		- dependencies from mech team (listed in full_go.py) (not part of our project, though we did help a lot)
+			- import time
+			- import datetime
+			- import csv
+			- import os
+			- import sys
+			- import RPi.GPIO as GPIO
+			- from PiPocketGeiger import RadiationWatch
+			- import ms5837
+			- from startUpBMP180 import *
+			- from scd30_i2c import SCD30
+			- import subprocess
+		- manual dependencies inside of folder for their sensors
+		- dependencies from Analog website (listed in src)
+	- docker image downloaded and built (commands listed in src)
+	- mech team sensors plugged in to raspberry pi
+	- docker_link folder placed in the home directory
+	- rPi configured as an access point
+		- this involves altering network config files, follow a guide here: 
+			- https://raspberrypi-guide.github.io/networking/create-wireless-access-point
+		- instead, we used a program called raspap, follow guide here:
+			- https://raspap.com/
+	- plutoSDR configured with correct IP address and host IP address, follow guide here:
+		- https://wiki.analog.com/university/tools/pluto/users/customizing
+		- the payload has IP address 192.168.3.2 with host IP 192.168.3.11
+
+    Linux Laptop (Ubuntu 20.04 or 22.04)
+	- installed using USB and balenaEtcher
+	- PlutoSDR drivers here: https://wiki.analog.com/university/tools/pluto/drivers/linux
+	- configure IP address and host IP address for plutoSDR
+		- the groundstation has IP address 192.168.3.1 with host IP 192.168.3.10
+	- install Gnu Radio 3.8.5.0 (commands listed in src)
+	- flask files, gnu radio receiver files, and parser files all downloaded from this repository into one directory (preferred)

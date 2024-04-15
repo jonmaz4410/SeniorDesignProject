@@ -1,0 +1,39 @@
+TEST INSTRUCTIONS
+
+First, follow all steps from build.txt
+
+BEGIN TEST
+
+A. RaspberryPi
+
+	1. Power on rPi
+	2. on laptop, look for Wi-Fi 'rasp-webgui'. Connect.
+	3. ssh <your static ip> into rPi in two different windows
+	4. terminal #1
+		- cd docker_link
+		- nohup python3 full_go.py > output_sensor.log 2>&1 &
+		- may need to run twice, if working, data will be output to the terminal (bug)
+		- (Pay attention to process ID listed, if you need to troubleshoot, first run 'kill <process_id> to start over)
+	5. terminal #2
+		- docker start gr385
+		- docker exec -it gr385 /bin/bash (now inside docker)
+		- cd home/shared (navigate to mounted drive)
+		- nohup python3 master_script2.py > output_tx.log 2>&1 &
+	6. close terminals
+
+B. Laptop
+
+	1. reconnect to original Wi-Fi network (optional: only for flask display)
+	2. open 3 terminal windows
+	3. terminal #1 (depends upon pkt_rcv.grc being in local dir)
+		-'gnuradio-companion'
+		- navigate to pkt_rcv.grc
+		- hit play to start receiver
+		- verify signal is being received from Power Bar, and that output_csv.csv is receiving data
+	4. terminal #2 (depends upon last_read_position.txt, parser_final.py, and output_csv.csv in local dir)
+		- 'python3 parser_final.py'
+	5. terminal #3 (depends upon app.py, put.py, and pos.csv being in local dir)
+		- 'flask run --debug'
+		- click on link to open in browser and visualize incoming data
+
+Now, data should be being received from #1, parsed in #2, and visualized in #3. If everything is working properly, data will be being received from the Tx PlutoSDR, received by Rx PlutoSDR, parsed, and visualized live.

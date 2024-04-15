@@ -1,0 +1,64 @@
+DOCUMENTATION:
+
+1. Docker Image Used
+
+	- https://hub.docker.com/r/joseasanchezviloria/siwn-radio
+
+Notes: This docker image is for ARM64 architecture. It has an older Python version resulting in incompatibilities with using Python dependencies. To build the image, use this command:
+
+sudo docker run --name gr385 -it -e DISPLAY=$DISPLAY -v /home/jonmaz/docker_link:/home/shared -v /dev/net/tun:/dev/net/tun --network host --device /dev/i2c-1 --cap-add=NET_ADMIN joseasanchezviloria/siwn-radio:v1
+
+This incorporates a mounted drive, access to i2c inside container, network capabilities, and access to display.
+
+	- in the future, consider creating a new image built specifically for the task at hand.
+
+2. Analog Discovery PlutoSDR resources
+
+	- Wiki 			-->	https://wiki.analog.com/university/tools/pluto
+	- Linux Drivers 	--> 	https://wiki.analog.com/university/tools/pluto/drivers/linux
+	- QuickStart		--> 	https://wiki.analog.com/university/tools/pluto/users/quick_start
+
+Notes: After plugging in PlutoSDR, look for the device to be connected as a USB device. Then, alter the config.txt file, eject, then DO NOT REMOVE cable. If you are updating the firmware, wait until blinking has stopped.
+
+3. Gnu Radio
+
+	- Version (3.8.5)	-->	https://github.com/gnuradio/gnuradio/releases/tag/v3.8.5.0
+	- Tutorials		--> 	https://wiki.gnuradio.org/index.php?title=Tutorials
+	- Installation		--> 	https://wiki.gnuradio.org/index.php/InstallingGR
+
+Notes: Gnu Radio is open-source. Therefore, some blocks may not function as expected. If this occurs, consider using older versions of Gnu Radio or writing your own custom Embedded Python Blocks (EBP) to achieve your goals.
+
+4. Raspberry Pi 4b
+
+	- Documentation		-->	https://www.raspberrypi.com/documentation/
+	- Specifications	--> 	https://www.raspberrypi.com/products/raspberry-pi-4-model-b/specifications/
+	- OS (PiSDR)		-->	https://github.com/luigifcruz/pisdr-image
+	- Access Point		--> 	https://raspberrypi-guide.github.io/networking/create-wireless-access-point
+	- RaspAP		--> 	https://raspap.com/
+
+Notes: The Raspberry Pi 4b requires a micro-HDMI cable for display. When being used as an access point, it cannot connect to Wi-Fi. PiSDR used as the OS permits not needing to install/build PlutoSDR drivers/blocks from source.
+
+5. Linux Laptop (Ubuntu 20.04)
+
+	- OS			-->	https://releases.ubuntu.com/focal/
+	- balenaEtcher		--> 	https://etcher.balena.io/
+	- IIO Devices		--> 	https://wiki.analog.com/resources/tools-software/linux-software/gnuradio
+
+Notes: A different Ubuntu version, or other Linux versions may be used. This version was used to aid in compatibility with Gnu Radio 3.8.5 but the installation was very complex and involved building many things from source, troubleshooting individual errors, and researching solutions. All of the steps used would be very difficult to duplicate. Recommend using a different version of Gnu Radio for the ground station in the future. Must also install PlutoSDR blocks for gnu radio (IIO Devices) and PlutoSDR drivers.
+
+6. Link Budget Analysis using Matlab
+
+	- Documentation		--> 	https://www.mathworks.com/help/comm/ug/link-budget-analysis.html
+
+Notes: License required. Parameters are non-obvious. Research what each parameter is, what it means, and how to find it. Ensure that units are properly calculated.
+
+7. Hardware Components
+
+	- HPA			-->	https://www.mouser.com/ProductDetail/Mini-Circuits/ZX60-83LN-S+?qs=xZ%2FP%2Ba9zWqZTXZVdBcW23A%3D%3D
+	- Dipole Antenna	-->	https://www.digikey.com/en/products/detail/l-com/HG903RD-SM/21287999
+	- PlutoSDR		--> 	https://www.digikey.com/en/products/detail/analog-devices-inc/ADALM-PLUTO/6624230
+	- Raspberry Pi 4b	-->	https://www.amazon.com/Raspberry-Model-2019-Quad-Bluetooth/dp/B07TC2BK1X
+	- Nooelec LANA LNA	--> 	https://www.amazon.com/Nooelec-Lana-Accessories-20MHz-4000MHz-Capability/dp/B07XNLJ9X2/
+	- Yagi Antenna		--> 	https://www.amazon.com/gp/product/B01FV1DD9C/
+
+Notes: Initially, we needed step-down converters. However, the AXA team decided to use a USB powerpack at the last minute, resulting in us no longer using them. The HPA had to be soldered very carefully as their terminals were close together. The rPi used a 32GB SD card for its OS. The LNA requires a USB connection of 3.3-5V, the rPi demands a 5V 3A connection to turn on. The PlutoSDR must use USBs with a ferrite core and are only meant to use the middle port to function properly. The HPA can accept 5V or 6V.

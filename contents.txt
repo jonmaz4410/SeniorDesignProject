@@ -1,0 +1,19 @@
+Contents of sub-directories
+
+1. data
+	- contains csv files generated on output of running the ground station
+
+2. doc
+	- list of resources used for this project including datasheets, specifications, and informative links
+
+3. other
+	- contains docker_link folder, to be placed on the rPi (combination of files from other subdirectories)
+
+4. photos and videos
+	- videos from launch
+	- pictures of launch day
+	- setup
+	- miscellaneous photos
+
+5. src
+	- contains source code and detailed instructions for how to use (visit README.txt in the folder)
